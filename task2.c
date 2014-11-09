@@ -8,8 +8,7 @@
 static int task_version_flag;
 
 void get_options(int argc, char **argv) {
-    static struct option long_options[] = 
-    {
+    static struct option long_options[] = {
         {"version_0", no_argument, &task_version_flag, 0},
         {"version_1", no_argument, &task_version_flag, 1},
         {0, 0, 0, 0}
@@ -27,7 +26,11 @@ int main(int argc, char **argv) {
     * that you're not interested in them by setting $SIGCHLD to "IGNORE" .
     */
     if (task_version_flag == 1) {
-        signal(SIGCHLD, SIG_IGN);
+        struct sigaction sigchld_action = {
+          .sa_handler = SIG_DFL,
+          .sa_flags = SA_NOCLDWAIT
+        };
+        sigaction(SIGCHLD, &sigchld_action, NULL);
     }
     
     pid_t pid = fork();
