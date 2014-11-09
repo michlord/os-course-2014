@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <getopt.h>
+#include <signal.h>
 
 static int task_version_flag;
 
@@ -20,6 +21,14 @@ void get_options(int argc, char **argv) {
 
 int main(int argc, char **argv) {
     get_options(argc, argv);
+    
+    /* 
+    * To avoid accumulating dead children, simply tell the system
+    * that you're not interested in them by setting $SIGCHLD to "IGNORE" .
+    */
+    if (task_version_flag == 1) {
+        signal(SIGCHLD, SIG_IGN);
+    }
     
     pid_t pid = fork();
     if (pid == -1) {
