@@ -27,8 +27,8 @@ int main(int argc, char **argv) {
     */
     if (task_version_flag == 1) {
         struct sigaction sigchld_action = {
-          .sa_handler = SIG_DFL,
-          .sa_flags = SA_NOCLDWAIT
+            .sa_handler = SIG_DFL,
+            .sa_flags = SA_NOCLDWAIT
         };
         sigaction(SIGCHLD, &sigchld_action, NULL);
     }
