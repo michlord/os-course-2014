@@ -75,8 +75,10 @@ int main(int argc, char **argv) {
                     printf("Child exiting.\n");
                     exit(EXIT_SUCCESS);
                 } else {
-                    int status;
-                    wait(&status);
+                    if(wait(NULL) == -1) {
+                        perror("Wait failed");
+                        exit(EXIT_FAILURE);
+                    }
                     printf("Child exited.\n");
                     exit(EXIT_SUCCESS);
                 }

@@ -86,7 +86,10 @@ int main() {
         fflush(stdout);
         write(pipefd[1], &c, 1);
         close(pipefd[1]); /* Reader will see EOF */
-        wait(NULL);
+        if(wait(NULL) == -1) {
+            perror("Wait failed");
+            exit(EXIT_FAILURE);
+        }
         exit(EXIT_SUCCESS);
     }
     

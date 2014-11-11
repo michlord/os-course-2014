@@ -42,7 +42,10 @@ int main() {
         kill(cpid, SIGINT);
         sleep(1);
         kill(cpid, SIGKILL);
-        wait(NULL);    
+        if(wait(NULL) == -1) {
+            perror("Wait failed");
+            exit(EXIT_FAILURE);
+        }
     }
     exit(EXIT_SUCCESS);
 }

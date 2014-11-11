@@ -64,7 +64,6 @@ int main() {
         sleep(4);
         
         killpg(pid, SIGTERM);
-        int status;
         /*
          * A call to the wait() or waitpid() function only returns status on an
          * immediate child process of the calling process; that is, a child that was 
@@ -73,7 +72,10 @@ int main() {
          * further use of fork(), none of those grandchildren nor any of their descendants
          * affect the behavior of a wait() from the original parent process.
         */
-        wait(&status);
+        if(wait(NULL) == -1) {
+            perror("Wait failed");
+            exit(EXIT_FAILURE);
+        }
         printf("Parent alive...");
         getchar();
         exit(EXIT_SUCCESS);
